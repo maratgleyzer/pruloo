@@ -1,0 +1,116 @@
+	body {
+		background-color:#000;
+		margin:0;
+		text-align:center;	}
+	#main {
+		background-image:url('images/main.jpg');
+		background-repeat:no-repeat;
+		width:900px;
+		height:900px;
+		margin:0 auto;
+		font-size:12px;
+	}
+	#thanks {
+		width:900px;
+		height:900px;
+		margin:0 auto;
+		text-align:center;
+	}
+	#order {
+		background-image:url('images/order.jpg');
+		background-repeat:no-repeat;
+		width:900px;
+		height:900px;
+		margin:0 auto;
+	}
+	#nav {
+		height:auto;
+		float:left;
+		margin-top:110px;
+		font-family:Arial;
+		width:230px;
+		margin-left:570px;
+		font-size:11px;
+		color:#000;
+		font-weight:bold;
+	}
+	#onav {
+		width:170px;
+		height:auto;
+		float:right;
+		margin-top:77px;
+		font-family:Arial;
+		font-size:12px;
+		text-align:left;
+		margin-right:122px;
+	}
+	#footer {
+		width:900px;
+		height:100px;
+		margin:0 auto;
+		color:#ccc;
+		font-family:Arial, Helvetica, sans-serif;
+		text-align:center;
+		padding-top:10px;
+		font-size:11px;
+margin-top:100px;
+	}
+	#footer a {
+		color:#ccc;
+		text-decoration:underline;
+	}
+	h1 {
+		font-size:55px;
+		color:#fff;
+		letter-spacing:-1px;
+		font-family:arial;
+}
+		h2 {
+		font-size:35px;
+		color:#fff;
+		letter-spacing:-1px;
+		font-family:arial;
+}
+#ordersub {
+	font-family:arial;
+	font-size:11px;
+	color:#000;
+	float:left;
+	width:450px;
+	margin-top:460px;
+	padding-left:20px;
+}
+#p_price {
+	color:#fff;
+}
+#Clock {
+	font-size:16px;
+	margin-left:80px;
+	width:240px;
+}
+
+.dijitDialogUnderlayWrapper {
+	background: #000;
+	position: absolute;
+}
+
+#butWait {
+	z-index: 1;
+}
+
+#butWait .dijitDialogTitleBar {
+	display: none;
+}
+
+#butWait .dijitDialogPaneContent {
+	background: url('images/wait.jpg');
+	width: 576px;
+	height: 326px;
+}
+
+#butWait_close {
+	cursor: pointer;
+	position: absolute;
+	top: 220px;
+	left: 220px;
+}

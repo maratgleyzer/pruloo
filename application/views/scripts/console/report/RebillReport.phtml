@@ -1,0 +1,47 @@
+<br />
+
+        <table width="100%" cellspacing="0">
+			<tr><td class="list-column-blue" colspan="2">Affiliates \/\/\/\/\/\/\/\/</td>
+				<td class="list-column-green" colspan="10">Rebill Data \/\/\/\/\/\/\/\/</td>
+			</tr>
+          	<tr><td class="list-column-blue" width="1">ID</td>
+            	<td class="list-column-blue">Affiliate Name</td>
+            	<td class="list-column-green">Total#</td>
+            	<td class="list-column-green">Total$</td>
+            	<td class="list-column-green">Rebill#</td>
+            	<td class="list-column-green">Rebill$</td>
+            	<td class="list-column-green">Rebill%</td>
+            	<td class="list-column-yellow">Decline#</td>
+            	<td class="list-column-yellow">Decline$</td>
+            	<td class="list-column-yellow">Decline%</td>
+            </tr>
+<?php
+$i = 0;
+if ($this->list_error)
+echo "<tr><td align=\"center\" colspan=\"20\">$this->list_error</td>";
+
+else
+foreach($this->records as $r)
+echo "
+<tr style='cursor:pointer;' onmouseover=\"this.style.backgroundColor='#222';\" onmouseout=\"this.style.backgroundColor='';\">
+<td class=\"list-row-blue\">$r[user_id]</td>
+<td class=\"list-row-blue\">".(strlen($r['business']) > 0 ? $r['business'] : "$r[user_last], $r[user_first]")."</td>
+<td class=\"list-row-green\">".($r['total_rebill_count']+$r['declined_rebill_count'])."</td>
+<td class=\"list-row-green\">".($r['total_rebill_sales']+$r['declined_rebill_sales'])."</td>
+<td class=\"list-row-green\">$r[total_rebill_count]</td>
+<td class=\"list-row-green\">$r[total_rebill_sales]</td>
+<td class=\"list-row-green\">".($r['total_rebill_count'] > 0 ? 100-round(($r['declined_rebill_count']/($r['total_rebill_count']+$r['declined_rebill_count']))*100,2) : "0")."</td>
+<td class=\"list-row-yellow\">$r[declined_rebill_count]</td>
+<td class=\"list-row-yellow\">$r[declined_rebill_sales]</td>
+<td class=\"list-row-yellow\">".($r['total_rebill_count'] > 0 ? round(($r['declined_rebill_count']/($r['total_rebill_count']+$r['declined_rebill_count']))*100,2) : "0")."</td>
+</tr>
+";
+?>            
+            </tr></table>
+
+<?//= ($this->paging ? $this->paging : "") ?>
+
+            </form>            
+            
+    </div>  
+</div>

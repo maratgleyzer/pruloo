@@ -1,0 +1,27 @@
+<div id="report_center">
+	<div id="mids">	
+  		<h1>&nbsp;Reports <?php if ($this->save_success) { ?><span id="alert"><?php echo $this->save_success ?></span><?php } ?></h1>
+    	<img src="/img/break.jpg" /><br /><br />
+    	
+<form name="report-pane" method="POST" action="/console/report">
+
+	<table id="find-form" class="form" cellspacing="0" width="100%">
+	<tr><td class="list-column">Select A Report Type:</td>
+		<td class="list-column" colspan="2">Include A Date Range:</td>
+		<td width="100"><input type="submit" class="submit" id="report" name="report" value="Report" style="width:89%;" onclick="this.form.submit();" /></td>
+	</tr><tr>
+		<td><?= $this->inputs[1] ?></td>
+		<td width="1"><ul><li class="sortdate" style="position:relative;margin:0;"><span><?= $this->inputs[2] ?><script language="JavaScript"> new tcal ({'formname': 'report-pane', 'controlname': 'start_date'}); </script></span>&nbsp;&nbsp; From:</li></ul></td>
+		<td width="1"><ul><li class="sortdate" style="position:relative;margin:0;"><span><?= $this->inputs[3] ?><script language="JavaScript"> new tcal ({'formname': 'report-pane', 'controlname': 'stop_date'}); </script></span>&nbsp;&nbsp; To:</li></ul></td>
+		<td><input type="reset" class="submit" value="Reset" style="width:89%;" /> </td>
+	</tr></table>
+
+<br />
+
+<?= $this->report ?>                
+                
+<?= ($this->paging ? $this->paging : "") ?>
+
+		</form>            
+    </div>  
+</div>

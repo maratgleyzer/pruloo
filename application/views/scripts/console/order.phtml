@@ -1,0 +1,101 @@
+<div id="report_center">
+	<div id="mids">	
+  		<h1>&nbsp;Orders <?php if ($this->save_success) { ?><span id="alert"><?php echo $this->save_success ?></span><?php } ?></h1>
+    	<img src="/img/break.jpg" /><br /><br />
+    	
+<form name="find-pane" method="POST" action="/console/order">
+
+	<table id="find-form" class="form" cellspacing="0" width="100%">
+	<tr><td class="list-column" width="200">Search By Campaign:</td>
+		<td class="list-column" width="100">Status:</td>
+		<td class="list-column">Order ID: <font class="note">(max. 8)</font></td>
+		<td class="list-column">Last Name: <font class="note">(max. 24)</font></td>
+		<td class="list-column">First Name: <font class="note">(max. 24)</font></td>
+		<td class="list-column">eMail Address: <font class="note">(max. 64)</font></td>
+		<td class="list-column">Card Number: <font class="note">(max. 16)</font></td>
+		<td><input type="submit" class="submit" id="search" name="search" value="Search" style="width:89%;" onclick="this.form.submit();" /></td>
+	</tr><tr>
+		<td><?= $this->inputs[1] ?></td>
+		<td><?= $this->inputs[6] ?></td>
+		<td><?= $this->inputs[5] ?></td>
+		<td><?= $this->inputs[2] ?></td>
+		<td><?= $this->inputs[3] ?></td>
+		<td><?= $this->inputs[4] ?></td>
+		<td><?= $this->inputs[7] ?></td>
+		<td><input type="reset" class="submit" value="Reset" style="width:89%;" /> </td>
+	<tr><td class="list-column" colspan="2">Country:</td>
+		<td class="list-column" colspan="2">Affiliate:</td>
+		<td class="list-column" colspan="2">Gateway:</td>
+		<td class="list-column" colspan="2">&nbsp;</td>
+	</tr><tr>
+		<td colspan="2"><?= $this->inputs[10] ?></td>
+		<td colspan="2"><?= $this->inputs[8] ?></td>
+		<td colspan="2"><?= $this->inputs[9] ?></td>
+		<td colspan="2">&nbsp;</td>
+	</tr></table>
+
+<br />
+
+        <table width="100%" cellspacing="0">
+          	<tr><td class="list-column" width="1">ID</td>
+            	<td class="list-column" width="140">Customer Name</td>
+            	<td class="list-column">eMail Address</td>
+            	<td class="list-column" width="120">Phone Number</td>
+            	<td class="list-column">Amount</td>
+            	<td class="list-column" width="1">Status</td>
+            	<td class="list-column" width="1">Rebill?</td>
+            	<td class="list-column" width="1">Retry?</td>
+            	<td class="list-column" width="1">Check?</td>
+            	<td class="list-column" width="1"></td>
+            	<td class="list-column" width="1"></td>
+            	<td class="list-column" width="1">&nbsp;</td>
+            	<td class="list-column" width="120">Create Date</td>
+            	<td class="list-column" width="1">&nbsp;</td>
+            </tr>
+<?php
+$i = 0;
+if ($this->list_error)
+echo "<tr><td align=\"center\" colspan=\"10\">$this->list_error</td>";
+
+else
+foreach($this->records as $r)
+echo "
+<tr style='cursor:pointer;".($this->save_id == $r['ordr_id'] ? "background:#090;'" : "' onmouseover=\"this.style.backgroundColor='#222';\" onmouseout=\"this.style.backgroundColor='';\"").">
+<td class=\"list-row\" onclick=\"viewRecord('order','".$r['ordr_id']."');\">$r[ordr_id]</td>
+<td class=\"list-row\" onclick=\"viewRecord('order','".$r['ordr_id']."');\">$r[bill_last], $r[bill_first]</td>
+<td class=\"list-row\" onclick=\"viewRecord('order','".$r['ordr_id']."');\">$r[bill_email]</td>
+<td class=\"list-row\" onclick=\"viewRecord('order','".$r['ordr_id']."');\">$r[bill_phone]</td>
+<td class=\"list-row\" onclick=\"viewRecord('order','".$r['ordr_id']."');\">$r[total_sale]</td>
+<td class=\"list-row\" onclick=\"viewRecord('order','".$r['ordr_id']."');\">$r[order_status]</td>
+<td class=\"list-row\" onclick=\"viewRecord('order','".$r['ordr_id']."');\">".($r['rebill'] ? "<img src=\"/img/check.png\" alt=\"\" />" : "")."</td>
+<td class=\"list-row\" onclick=\"viewRecord('order','".$r['ordr_id']."');\">".($r['retry'] ? "<img src=\"/img/check.png\" alt=\"\" />" : "")."</td>
+<td class=\"list-row\" onclick=\"viewRecord('order','".$r['ordr_id']."');\">".($r['bank_check'] ? "<img src=\"/img/check.png\" alt=\"\" />" : "")."</td>
+<td class=\"list-row\">".($r['plan_id'] > 0 && eregi("SALE",$r['order_status']) && is_null($r['void_id']) ? "<a onmousedown=\"if (confirm('Are you sure you want to REFUND Order ID ".$r['ordr_id']."?')) doRefund(".$r['ordr_id'].",0);\" href=\"/order/refund/oid/".$r['ordr_id']."\">REFUND</a>" : "&nbsp;")."</td>
+<td class=\"list-row\">".(($r['disable'] < 1) && (eregi("(SALE|REFUND|DECLINE)",$r['order_status'])) ? "<a onmousedown=\"if (confirm('Are you sure you want to VOID Order ID ".$r['ordr_id']."?')) doCancel(".$r['ordr_id'].");\" href=\"/order/cancel/oid/".$r['ordr_id']."\">VOID/CANCEL</a>" :
+(($r['disable'] > 0) && (eregi("(SALE|REFUND|DECLINE)",$r['order_status'])) ? "<a onmousedown=\"if (confirm('Are you sure you want to REACTIVATE Order ID ".$r['ordr_id']."?')) doActivate(".$r['ordr_id'].");\" href=\"/order/activate/oid/".$r['ordr_id']."\">REACTIVATE</a>" : "&nbsp;"))."</td>
+<td class=\"list-row\"><a onclick=\"addNote('".$r['ordr_id']."');\" href=\"javascript:\">NOTES</a></td>
+<td class=\"list-row\">".(eregi("REFUND",$r['order_status']) ? "$r[void_date] $r[void_time]" : (eregi("(SALE|DECLINE)",$r['order_status']) ? "$r[sale_date] $r[sale_time]" : "$r[lead_date] $r[lead_time]"))."</td>
+<td class=\"list-row\">edit</td>
+</tr><tr><td style=\"background:#ddd;margin:0;padding:0;border:0;\" id=\"order_$r[ordr_id]\" colspan=\"14\"></td></tr>
+";
+?>            
+            </tr></table>
+
+<?= ($this->paging ? $this->paging : "") ?>
+
+            </form>            
+            
+    </div>  
+</div>
+
+
+
+
+
+
+
+<div id="save-pane" style="display:<?= ($this->save_error ? "block" : "none") ?>">
+<?= (isset($this->note_form) ? $this->note_form : "") ?>
+</div><!-- /#save-pane -->
+
+<div id="modal" style="display:<?= ($this->save_error ? "block" : "none") ?>"></div><!-- /#modal -->

@@ -1,0 +1,54 @@
+<?php 
+// application/layouts/scripts/layout.phtml
+
+echo $this->doctype() ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Login baby</title>
+<?php echo $this->headLink()->appendStylesheet('/css/style.css') ?>
+
+<style>
+	body {
+		background-color:#2b2b2b;
+		background-image:url('/img/bg.jpg');
+		background-repeat:repeat-x;
+		margin:0;
+		text-align:center;
+	}
+	#main {
+		margin:0 auto;
+		width:900px;
+		height:595px;
+		background-repeat:no-repeat;
+		background-image:url('/img/main.jpg');
+
+	}
+	#content {
+		width:400px;
+		height:400px;
+		float:left;
+		padding-left:280px;
+		padding-top:240px;
+		color:#fff;
+		text-align:left;
+		font-family:Arial, Helvetica, sans-serif;
+	}
+	#content input {
+		width:330px;
+		height:20px;
+		margin-bottom:2px;
+	}
+</style>
+</head>
+<body>
+	<div id="main">
+    	<div id="content">
+    	
+<?php echo $this->layout()->content ?>
+
+     	</div>
+    </div>
+</body>
+</html>

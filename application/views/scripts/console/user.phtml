@@ -1,0 +1,140 @@
+<div id="center">
+	<div id="mids">	
+  		<h1><span style="float:right;margin-right:10px;"><form action="#"><input type="submit" class="submit" value="Add A User" onclick="showForm('save-pane')" /></form></span> &nbsp;Users <?php if ($this->save_success) { ?><span id="alert"><?php echo $this->save_success ?></span><?php } ?></h1>
+    	<img src="/img/break.jpg" /><br /><br />
+    	
+<form name="find-pane" method="POST" action="/console/user">
+
+	<table id="find-form" class="form" cellspacing="0" width="100%">
+	<tr><td class="list-column" width="190">Search By User Type:</td>
+		<td class="list-column">Last Name: <font class="note">(max. 24)</font></td>
+		<td class="list-column">First Name: <font class="note">(max. 24)</font></td>
+		<td class="list-column">eMail Address: <font class="note">(max. 64)</font></td>
+		<td class="list-column">Phone Number: <font class="note">(max. 16)</font></td>
+		<td><input type="submit" class="submit" id="search" name="search" value="Search" style="width:89%;" /></td>
+	</tr><tr>
+		<td><?= $this->search_inputs[1] ?></td>
+		<td><?= $this->search_inputs[2] ?></td>
+		<td><?= $this->search_inputs[3] ?></td>
+		<td><?= $this->search_inputs[4] ?></td>
+		<td><?= $this->search_inputs[5] ?></td>
+		<td><input type="reset" class="submit" value="Reset" style="width:89%;" /> </td>
+	</tr></table>
+</form>
+
+<br />
+
+        <table width="100%" cellspacing="0">
+          	<tr><td class="list-column" width="1">ID</td>
+          		<td class="list-column" width="1">Type</td>
+            	<td class="list-column">Real Name</td>
+            	<td class="list-column">Username</td>
+            	<td class="list-column">State</td>
+            	<td class="list-column">Country</td>
+            	<td class="list-column">Phone</td>
+            	<td class="list-column">eMail</td>
+            	<td class="list-column" colspan="2">&nbsp;</td>                    
+            </tr>
+<?php
+$i = 0;
+if ($this->list_error)
+echo "<tr><td align=\"center\" colspan=\"10\">$this->list_error</td>";
+
+else
+foreach($this->records as $r)
+echo "
+<tr style='cursor:pointer;".($this->save_id == $r['user_id'] ? "background:#090;'" : "' onmouseover=\"this.style.backgroundColor='#222';\" onmouseout=\"this.style.backgroundColor='';\"").">
+<td class=\"list-row\">$r[user_id]</td>
+<td class=\"list-row\">".($r['administrator'] ? "Administrator" : ($r['affiliate'] ? "Affiliate" : "Employee"))."</td>
+<td class=\"list-row\">".(strlen($r['business']) > 0 ? $r['business'] : "$r[user_last], $r[user_first]")."</td>
+<td class=\"list-row\">$r[username]</td>
+<td class=\"list-row\">$r[user_state]</td>
+<td class=\"list-row\">$r[user_country]</td>
+<td class=\"list-row\">$r[user_phone]</td>
+<td class=\"list-row\">$r[user_email]</td>
+<td class=\"list-row\" width=\"1\">".($r['disable'] > 0 ? "<a class=\"enable\" href=\"/console/user/enable/$r[user_id]\">enable</a>" : "<a class=\"disable\" href=\"/console/user/disable/$r[user_id]\">disable</a>")."</td>
+<td class=\"list-row\" width=\"1\"><a class=\"edit\" href=\"/console/user/edit/$r[user_id]\">edit</a></td>
+</tr>
+</tr>
+";
+?>            
+            </tr></table>
+    </div>  
+</div>
+
+
+
+
+
+<div id="save-pane" style="display:<?= ($this->save_error ? "block" : "none") ?>">
+<h1>Add A User</h1>
+
+<?php if (is_string($this->save_error)) { ?><ul class="errors"><li><?= $this->save_error ?></li></ul><br /><?php } ?>
+
+<form name="save-pane" method="POST" action="/console/user/save/1">
+
+<table id="save-form" class="form" cellspacing="10" width="100%">
+	<tr>
+		<td class="required" width="30%">User Type:</td>
+		<td class="value" width="70%"><?= $this->inputs[1] ?></td>
+	</tr>
+	<tr>
+		<td class="required" width="30%">First Name: <br /> <font class="note">(max. 24)</font></td>
+		<td class="value" width="70%"><?= $this->inputs[3] ?></td>
+	</tr>
+	<tr>
+		<td class="required">Last Name: <br /> <font class="note">(max. 24)</font></td>
+		<td class="value"><?= $this->inputs[4] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Business Name: <br /> <font class="note">(max. 32)</font></td>
+		<td class="value"><?= $this->inputs[2] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Address: <br /> <font class="note">(max. 64)</font></td>
+		<td class="value"><?= $this->inputs[5] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Zip: <br /> <font class="note">(max. 8)</font></td>
+		<td class="value"><?= $this->inputs[6] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Phone: <br /> <font class="note">(max. 64)</font></td>
+		<td class="value"><?= $this->inputs[7] ?></td>
+	</tr>
+	<tr>
+		<td class="required">eMail: <br /> <font class="note">(max. 64)</font></td>
+		<td class="value"><?= $this->inputs[8] ?></td>
+	</tr>
+	<tr>
+		<td class="required">Username: <br /> <font class="note">(max. 64)</font></td>
+		<td class="value"><?= $this->inputs[9] ?></td>
+	</tr>
+	<tr>
+		<td class="required">Password: <br /> <font class="note">(max. 32)</font></td>
+		<td class="value"><?= $this->inputs[10] ?></td>
+	</tr>
+	<tr>
+		<td class="required">Confirm:</td>
+		<td class="value"><?= $this->inputs[11] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Messenger: <br /> <font class="note">(max. 64)</font></td>
+		<td class="value"><?= $this->inputs[12] ?></td>
+	</tr>
+	<tr>
+		<td class="label" valign="top">Wire Transfer <br /> Information: <br /> <font class="note">(max. 255)</font></td>
+		<td class="value"><?= $this->inputs[13] ?></td>
+	</tr>
+</table><!-- /#save-form -->
+
+<div id="save-actions" class="actions">
+	<input type="submit" class="submit" value="Save" />
+	<input type="button" class="submit" value="Cancel" onclick="hideForm('save-pane')" />
+</div><!-- /#top-actions -->
+
+</form>
+
+</div><!-- /#save-pane -->
+
+<div id="modal" style="display:<?= ($this->save_error ? "block" : "none") ?>"></div><!-- /#modal -->

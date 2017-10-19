@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<graph caption='Men Vs. Women' xAxisName='Gender' yAxisName='Number of Members' showNames='1' decimalPrecision='0' formatNumberScale='0'>
+   <set name='Men' value='462' color='444444' />
+   <set name='Women' value='857' color='FF4400' />
+</graph>

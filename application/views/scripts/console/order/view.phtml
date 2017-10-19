@@ -1,0 +1,193 @@
+
+
+<style>
+
+fieldset {
+	margin:5px 10px 10px 10px;
+	color:#000;
+	border:1px solid #000;
+	padding:5px;
+}
+
+legend {
+	color:#000;
+	font-size:14px;
+	font-weight:bold;
+}
+
+.columns {
+	background:#444;
+	color:#eee;
+}
+
+.ordernav {
+	margin:10px 10px 0 0;
+	text-align:right;
+	color:#000;
+}
+
+.ordernav a {
+	font-weight:bold;
+	color:#000;
+}
+
+</style>
+
+<?php if (!eregi("LEAD",$this->order['order_status'])) { ?>
+<div class="ordernav">
+<?php if (eregi("DECLINE",$this->order['order_status'])) { ?> &nbsp;&nbsp; <a href="javascript:" onclick="doRetry(<?= $this->order['ordr_id'] ?>);">retry this transaction on another gateway</a><?php } ?>
+<?php if (eregi("SALE",$this->order['order_status']) && $this->order['disable'] < 1) { ?> &nbsp;&nbsp; <a href="javascript:" onclick="doResend(<?= $this->order['ordr_id'] ?>);">resend member login</a><?php } ?>
+</div>
+<?php } ?>
+
+<?php if ($this->order['plan_id'] > 0) { ?>
+
+<fieldset>
+<legend>Order</legend>
+<table width="100%" cellpadding="2" cellspacing="2">
+<tr class="columns">
+<td>Gateway</td>
+<td>Transaction ID</td>
+<td>Auth. Number</td>
+<td>Refund/Void ID</td>
+<td>Fraud?</td>
+<td>Chargeback?</td>
+<td>IP Address</td>
+<td>IP Address Lookup</td>
+</tr><tr>
+<td><?= $this->order['gate_name'] ?><?= ($this->order['gate_alias'] ? " - ".$this->order['gate_alias'] : "") ?></td>
+<td><?= $this->order['transaction'] ?></td>
+<td><?= $this->order['auth_number'] ?></td>
+<td><?= $this->order['void_id'] ?></td>
+<td><?= ($this->order['fraud'] > 0 ? "<img src=\"/img/check.png\" alt=\"\" />" : (eregi("(SALE|REFUND|DECLINE)",$this->order['order_status']) ? " &nbsp;&nbsp; <a href=\"javascript:\" style=\"color:#000;font-weight:bold;\" onclick=\"doFraud($this->order[ordr_id]);\">mark as fraud</a>" : "")); ?></td>
+<td><?= ($this->order['chargeback'] > 0 ? "<img src=\"/img/check.png\" alt=\"\" />" : "") ?></td>
+<td><?= $this->order['ip_address'] ?></td>
+<td><?= $this->order['ip_lookup'] ?></td>
+</tr><tr class="columns">
+<td>Decline Reason</td>
+<td>Total Sale</td>
+<td>Product/Trial Sale</td>
+<td>Shipper Sale</td>
+<td>RMA#</td>
+<td colspan="3">RMA Reason</td>
+</tr><tr>
+<td><?= $this->order['decline_reason'] ?></td>
+<td><?= $this->order['total_sale'] ?></td>
+<td><?= $this->order['product_sale'] ?></td>
+<td><?= $this->order['shipper_sale'] ?></td>
+<td><?= $this->order['rma_number'] ?></td>
+<td><?= $this->order['rma_reason'] ?></td>
+</tr></table>
+</fieldset>
+
+<?php } ?>
+
+<fieldset>
+<legend>Billing</legend>
+<table width="100%" cellpadding="2" cellspacing="2">
+<tr class="columns">
+<td>Address</td>
+<td>City</td>
+<td>Zip</td>
+<td>State</td>
+<td>Country</td>
+<td>Credit Card</td>
+<td>Card Number</td>
+<td colspan="3">Expiration</td>
+</tr><tr>
+<td><?= $this->order['bill_address'] ?></td>
+<td><?= $this->order['bill_city'] ?></td>
+<td><?= $this->order['bill_zip'] ?></td>
+<td><?= $this->order['bill_state'] ?></td>
+<td><?= $this->order['bill_country'] ?></td>
+<td><?= $this->order['card_type'] ?></td>
+<td><?= "XXXXXXXXXXXX".substr($this->order['card_number'],-4) ?></td>
+<td colspan="3"><?= $this->order['expiration'] ?></td>
+</tr></table>
+</fieldset>
+
+<?php if ($this->order['ship_id'] > 0) { ?>
+
+<fieldset>
+<legend>Shipping</legend>
+<table width="100%" cellpadding="2" cellspacing="2">
+<tr class="columns">
+<td>Address</td>
+<td>City</td>
+<td>Zip</td>
+<td>State</td>
+<td>Country</td>
+<td>Shipping Carrier</td>
+<td>Cost to Ship</td>
+<td>Total Weight</td>
+<td>Delivery Conf.</td>
+<td>Signature Conf.</td>
+</tr><tr>
+<td><?= $this->order['ship_address'] ?></td>
+<td><?= $this->order['ship_city'] ?></td>
+<td><?= $this->order['ship_zip'] ?></td>
+<td><?= $this->order['ship_state'] ?></td>
+<td><?= $this->order['verbose'] ?></td>
+<td><?= $this->order['ship_name'] ?></td>
+<td><?= $this->order['shipper_sale'] ?></td>
+<td><?= $this->order['weight'] ?></td>
+<td><?= $this->order['delivery'] ?></td>
+<td><?= $this->order['signature'] ?></td>
+</tr></table>
+</fieldset>
+
+<?php } ?>
+
+<fieldset>
+<legend>Products</legend>
+<table width="100%" cellpadding="2" cellspacing="2">
+<tr class="columns">
+<td width="80">Product ID</td>
+<td>Product Name</td>
+<td>Cost</td>
+<td>Weight</td>
+<td colspan="2">Quantity</td>
+<td colspan="2">Sku#</td>
+</tr><tr>
+<td><?= $this->order['prod_id'] ?></td>
+<td><?= $this->order['product_name'] ?></td>
+<td><?= $this->order['product_cost'] ?></td>
+<td><?= $this->order['product_size'] ?></td>
+<td colspan="2"><?= $this->order['quantity'] ?></td>
+<td colspan="2"><?= $this->order['product_sku'] ?></td>
+</tr><tr class="columns">
+<td width="80">Offer ID</td>
+<td>Offer Name</td>
+<td>Retail</td>
+<td>Term</td>
+<td>Rebill Date</td>
+<td>Rebill Disc</td>
+<td>Trial Cost</td>
+<td>Trial Term</td>
+</tr><tr>
+<td><?= $this->order['offr_id'] ?></td>
+<td><?= $this->order['offer_name'] ?></td>
+<td><?= $this->order['offer_cost'] ?></td>
+<td><?= $this->order['recur_term'] ?></td>
+<td><?= $this->order['rebill_date'] ?></td>
+<td><?= $this->order['rebill_disc'] ?></td>
+<td><?= $this->order['trial_cost'] ?></td>
+<td><?= $this->order['trial_term'] ?></td>
+</tr></table>
+</fieldset>
+
+<fieldset>
+<legend>Campaign</legend>
+<table width="100%" cellpadding="2" cellspacing="2">
+<tr class="columns">
+<td>Campaign ID</td>
+<td>Campaign Name</td>
+<td>Affiliate ID</td>
+<td>Affiliate Name</td>
+</tr><tr>
+<td><?= $this->order['camp_id'] ?></td>
+<td><?= $this->order['campaign'] ?></td>
+<td><?= $this->order['affi_id'] ?></td>
+<td><?= $this->order['affi_last'] ?>, <?= $this->order['affi_first'] ?></td>
+</tr></table>
+</fieldset>

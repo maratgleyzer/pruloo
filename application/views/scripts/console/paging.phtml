@@ -1,0 +1,11 @@
+<div>
+<table width="100%"><tr style="font-size:14px;font-weight:bold;">
+<td class="list-row">Showing <?= $this->limit_start+1 ?> - <?= $this->limit_stop ?> of <?= $this->total_records ?></td>
+<td class="list-row">Display per page: &nbsp; <select name="show_per_page"><?= $this->page_display_options ?></td>
+<td class="list-row">Jump to page: &nbsp; <select name="go_to_page"><?= $this->paging_options ?></select></td>
+<td width="1"><?php if ($this->limit_start > 0) { ?><input type="submit" class="submit" name="first_page" value="|<<" /><?php } ?></td>
+<td width="1"><?php if ($this->limit_start > 0) { ?><input type="submit" class="submit" name="prev_page" value="<<" /><?php } ?></td>
+<td width="1"><?php if ($this->limit_stop < $this->total_records) { ?><input type="submit" class="submit" name="next_page" value=">>" /><?php } ?></td>
+<td width="1"><?php if ($this->limit_stop < $this->total_records) { ?><input type="submit" class="submit" name="last_page" value=">>|" onmousedown="search.type='button';"/><?php } ?></td>
+</tr></table> 
+</div>

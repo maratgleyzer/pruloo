@@ -1,0 +1,168 @@
+<?php include realpath(APPLICATION_PATH.'/../public/chart/new/Code/PHP/Includes/FusionCharts.php'); ?>
+
+<style type="text/css">
+<!--
+.date_input {
+	background-color:transparent; 
+  border:0; 
+  color:silver; 
+  position:absolute; 
+  left:10px; 
+  font-weight:bold;
+  text-align:center;
+}
+-->
+</style>
+
+			<div id="center">
+        	<div id="dashhead">
+            	<div id="dashleft">
+                <h1>Sort</h1>
+                <form name="date" action="/console" method="POST">
+                <ul>
+                  <li class="sortdate" style="position:relative;">
+<span><?= $this->inputs[1] ?><script language="JavaScript"> new tcal ({'formname': 'date', 'controlname': 'start_date'}); </script></span>
+&nbsp;&nbsp; From:
+				  </li><li class="sortdate" style="position:relative;">
+<span><?= $this->inputs[2] ?><script language="JavaScript"> new tcal ({'formname': 'date', 'controlname': 'stop_date'}); </script></span>
+&nbsp;&nbsp; To:
+		          </li><li>
+<?= $this->inputs[3] ?>
+</li>
+                </ul>
+                </form>
+                </div>
+                <div id="dashright">
+                <!-- charts -->
+                	<?php echo renderChartHTML("/chart/Charts/FCF_MSArea2D.swf", "Test.xml", "", "data", 490, 240); ?>
+                <!-- charts -->
+                </div>
+            </div>
+            <!-- top of shit -->
+            <div id="left">
+				<div id="bottomhead">
+                	<img src="/img/exit.jpg" class="exit" /><h1>Order Summary</h1>
+                    <img src="/img/break.jpg" />
+                    <table>
+                    	<tr height="25px" style="background-color:#131313;">
+                        	<td width="100%">Total New Orders:</td>
+                          <td><?= $this->total_new_orders ?></td>
+                        </tr>
+                    	<tr height="25px" style="background-color:#131313;">
+                        	<td>New Order Revenue:</td>
+                          <td>$<?= $this->new_order_sales ?></td>
+                        </tr>
+                        <tr height="25px">
+                        	<td>Total Current Rebills:</td>
+                          <td><?= $this->total_current_rebills ?></td>
+                        </tr>
+                        <tr height="25px">
+                        	<td>Current Rebill Revenue:</td>
+                          <td>$<?= $this->current_rebill_sales ?></td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Rebills For Tomorrow:</td>
+                          <td><?= $this->tomorrows_rebills ?></td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Total Future Rebills:</td>
+                          <td><?= $this->total_future_rebills ?></td>
+                        </tr>
+                        <tr height="25px">
+                        	<td>Total Declined Orders:</td>
+                          <td><?= $this->total_declined_orders ?></td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Declined New Orders:</td>
+                          <td><?= $this->declined_new_orders ?></td>
+                        </tr>
+                        <tr height="25px">
+                        	<td>Declined Rebills:</td>
+                          <td><?= $this->declined_rebills ?></td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Total Voids/Refunds:</td>
+                          <td><?= $this->total_voids_refunds ?></td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Voids/Refunds Value:</td>
+                          <td>$<?= $this->voids_refunds_value ?></td>
+                        </tr>
+                        <tr height="25px">
+                        	<td>Order Voids/Refunds:</td>
+                          <td><?= $this->new_order_refunds ?></td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Rebill Voids/Refunds:</td>
+                          <td><?= $this->rebill_refunds ?></td>
+                        </tr>
+                        <tr height="25px">
+                        	<td>Total Shipped Orders:</td>
+                          <td> -</td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Total Archive Orders:</td>
+                          <td><?= $this->total_archive_orders ?></td>
+                        </tr>
+                     </table>
+                </div>
+            </div>
+            <!-- top of shit -->
+             <!-- top of shit -->
+            <div id="right">
+				<div id="bottomhead">
+                	<img src="/img/exit.jpg" class="exit" /><h1>Client Summary</h1>
+                    <img src="/img/break.jpg" />
+                    <table width="100%">
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Active Prospects:</td>
+                          <td width="1" align="right"><?= $this->active_prospects ?></td>
+                        </tr>
+                        <tr height="25px">
+                        	<td>Active Customers:</td>
+                          <td width="1" align="right"><?= $this->active_customers ?></td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Blacklisted Customers:</td>
+                          <td width="1" align="right"><?= $this->blacklisted_customers ?></td>
+                        </tr>
+                    </table>
+                </div><br />
+                <div id="bottomhead">
+                	<img src="/img/exit.jpg" class="exit" /><h1>Affiliate Summary</h1>
+                    <img src="/img/break.jpg" />
+                     <table width="100%">
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Active Affiliates:</td>
+                          <td width="1" align="right"><?= $this->active_affiliates ?></td>
+                        </tr>
+                        <tr height="25px">
+                        	<td>Pending Affiliates:</td>
+                          <td width="1" align="right"> - </td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Blacklisted Affiliates:</td>
+                          <td width="1" align="right"><?= $this->blacklisted_affiliates ?></td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="bottomhead">
+                	<img src="/img/exit.jpg" class="exit" /><h1>Merchanting Summary</h1>
+                    <img src="/img/break.jpg" />
+                     <table width="100%">
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Unused Capacity:</td>
+                          <td width="1" align="right">$<?= $this->unused_capacity ?></td>
+                        </tr>
+                        <tr height="25px">
+                        	<td>Purchases Total:</td>
+                          <td width="1" align="right">$<?= $this->purchases_total ?></td>
+                        </tr>
+                        <tr height="25px" style="background-color:#131313;">
+                        	<td>Threshold Total:</td>
+                          <td width="1" align="right">$<?= $this->threshold_total ?></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <!-- top of shit --> 

@@ -1,0 +1,73 @@
+<br />
+
+        <table width="100%" cellspacing="0">
+			<tr><td class="list-column-blue" colspan="2">Countries \/\/\/\/\/\/\/\/</td>
+				<td class="list-column-gray">Leads</td>
+				<td class="list-column-green" colspan="13">Sales \/\/\/\/\/\/\/\/</td>
+				<td class="list-column-red" colspan="2">Refunds \/\/\/\/\/\/\/\/</td>
+				<td class="list-column-yellow" colspan="2">Declines \/\/\/\/\/\/\/\/</td>
+				<td class="list-column" width="1">&nbsp;</td>
+			</tr>
+          	<tr><td class="list-column-blue" width="1">ID</td>
+            	<td class="list-column-blue">Country</td>
+            	<td class="list-column-gray" width="1">Count</td>
+            	<td class="list-column-green" width="1">Orig#</td>
+            	<td class="list-column-green">Orig$</td>
+            	<td class="list-column-green" width="1">New#</td>
+            	<td class="list-column-green">New$</td>
+            	<td class="list-column-green">+</td>
+            	<td class="list-column-green" width="1">Rebill#</td>
+            	<td class="list-column-green">Rebill$</td>
+            	<td class="list-column-green">+</td>
+            	<td class="list-column-green" width="1">Saved#</td>
+            	<td class="list-column-green">Saved$</td>
+            	<td class="list-column-green">=</td>
+            	<td class="list-column-green" width="1">Total#</td>
+            	<td class="list-column-green">Total$</td>
+            	<td class="list-column-red" width="1">Refund#</td>
+            	<td class="list-column-red">Refund$</td>
+            	<td class="list-column-yellow" width="1">Declined#</td>
+            	<td class="list-column-yellow">Declined$</td>
+            	<td class="list-column">Affiliate</td>
+            </tr>
+<?php
+$i = 0;
+if ($this->list_error)
+echo "<tr><td align=\"center\" colspan=\"20\">$this->list_error</td>";
+
+else
+foreach($this->records as $r)
+echo "
+<tr style='cursor:pointer;' onmouseover=\"this.style.backgroundColor='#222';\" onmouseout=\"this.style.backgroundColor='';\">
+<td class=\"list-row-blue\">$r[abbr]</td>
+<td class=\"list-row-blue\">$r[verbose]</td>
+<td class=\"list-row-gray\">$r[lead_count]</td>
+<td class=\"list-row-green\">$r[original_sale_count]</td>
+<td class=\"list-row-green\">$r[original_sale_sales]</td>
+<td class=\"list-row-green\">$r[new_sale_count]</td>
+<td class=\"list-row-green\">$r[new_sale_sales]</td>
+<td class=\"list-row-green\"></td>
+<td class=\"list-row-green\">$r[rebill_count]</td>
+<td class=\"list-row-green\">$r[rebill_sales]</td>
+<td class=\"list-row-green\"></td>
+<td class=\"list-row-green\">$r[saved_count]</td>
+<td class=\"list-row-green\">$r[saved_sales]</td>
+<td class=\"list-row-green\"></td>
+<td class=\"list-row-green\">".($r['new_sale_count']+$r['rebill_count']+$r['saved_count'])."</td>
+<td class=\"list-row-green\">".($r['new_sale_sales']+$r['rebill_sales']+$r['saved_sales'])."</td>
+<td class=\"list-row-red\">$r[refund_count]</td>
+<td class=\"list-row-red\">$r[refund_sales]</td>
+<td class=\"list-row-yellow\">$r[declined_count]</td>
+<td class=\"list-row-yellow\">$r[declined_sales]</td>
+<td align=\"center\" class=\"list-row\"><a href=\"\">Affiliate</a></td>
+</tr>
+";
+?>            
+            </tr></table>
+
+<?//= ($this->paging ? $this->paging : "") ?>
+
+            </form>            
+            
+    </div>  
+</div>

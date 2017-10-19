@@ -1,0 +1,35 @@
+        <table width="100%" cellspacing="0">
+
+<?php
+$i = 0;
+if ($this->list_error)
+echo "<tr><td align=\"center\" colspan=\"20\">$this->list_error</td>";
+
+else
+foreach($this->records as $r)
+echo "
+<tr style='cursor:pointer;' onmouseover=\"this.style.backgroundColor='#222';\" onmouseout=\"this.style.backgroundColor='';\">
+<td class=\"list-row-blue-dark\" width=\"6%\">&nbsp;</td>
+<td class=\"list-row-blue-dark\" width=\"13%\">".((strlen($r['subs_id']) == 0) ? "Without A Sub ID" : $r['subs_id'])."</td>
+<td class=\"list-row-gray-dark\" width=\"5%\">$r[lead_count]</td>
+<td class=\"list-row-green-dark\" width=\"5%\">$r[original_sale_count]</td>
+<td class=\"list-row-green-dark\" width=\"5%\">$r[original_sale_sales]</td>
+<td class=\"list-row-green-dark\" width=\"5%\">$r[new_sale_count]</td>
+<td class=\"list-row-green-dark\" width=\"5%\">$r[new_sale_sales]</td>
+<td class=\"list-row-green-dark\" width=\"1%\"></td>
+<td class=\"list-row-green-dark\" width=\"5%\">$r[rebill_count]</td>
+<td class=\"list-row-green-dark\" width=\"5%\">$r[rebill_sales]</td>
+<td class=\"list-row-green-dark\" width=\"1%\"></td>
+<td class=\"list-row-green-dark\" width=\"5%\">$r[saved_count]</td>
+<td class=\"list-row-green-dark\" width=\"5%\">$r[saved_sales]</td>
+<td class=\"list-row-green-dark\" width=\"1%\"></td>
+<td class=\"list-row-green-dark\" width=\"5%\">".($r['new_sale_count']+$r['rebill_count']+$r['saved_count'])."</td>
+<td class=\"list-row-green-dark\" width=\"5%\">".($r['new_sale_sales']+$r['rebill_sales']+$r['saved_sales'])."</td>
+<td class=\"list-row-red-dark\" width=\"5%\">$r[refund_count]</td>
+<td class=\"list-row-red-dark\" width=\"5%\">$r[refund_sales]</td>
+<td class=\"list-row-yellow-dark\" width=\"5%\">$r[declined_count]</td>
+<td class=\"list-row-yellow-dark\" width=\"5%\">$r[declined_sales]</td>
+</tr>
+";
+?>            
+            </table>

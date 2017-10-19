@@ -1,0 +1,94 @@
+<div id="center">
+	<div id="mids">	
+  		<h1><span style="float:right;margin-right:10px;"><form action="#"><input type="submit" class="submit" value="Add An Offer" onclick="showForm('save-pane')" /></form></span> &nbsp;Offers <?php if ($this->save_success) { ?><span id="alert"><?php echo $this->save_success ?></span><?php } ?></h1>
+    	<img src="/img/break.jpg" /><br /><br />
+        <table width="100%" cellspacing="0">
+          	<tr><td class="list-column" width="1">ID</td>
+            	<td class="list-column">Offer Name</td>
+            	<td class="list-column">Product</td>
+            	<td class="list-column">Retail Price</td>
+            	<td class="list-column">Billing Term</td>
+            	<td class="list-column">Trial Cost</td>
+            	<td class="list-column">Trial Term</td>
+            	<td class="list-column">Create Date</td>
+            	<td class="list-column" colspan="2">&nbsp;</td>                    
+            </tr>
+<?php
+$i = 0;
+if ($this->list_error)
+echo "<tr><td align=\"center\" colspan=\"10\">$this->list_error</td>";
+
+else
+foreach($this->records as $r)
+echo "
+<tr style='cursor:pointer;".($this->save_id == $r['offr_id'] ? "background:#090;'" : "' onmouseover=\"this.style.backgroundColor='#222';\" onmouseout=\"this.style.backgroundColor='';\"").">
+<td class=\"list-row\">$r[offr_id]</td>
+<td class=\"list-row\">$r[offer_name]</td>
+<td class=\"list-row\">$r[product_name] ($r[product_cost])</td>
+<td class=\"list-row\">$r[offer_cost]</td>
+<td class=\"list-row\">$r[recur_term]</td>
+<td class=\"list-row\">$r[trial_cost]</td>
+<td class=\"list-row\">$r[trial_term]</td>
+<td class=\"list-row\">$r[created]</td>
+<td class=\"list-row\" width=\"1\">".($r['disable'] > 0 ? "<a class=\"enable\" href=\"/console/offer/enable/$r[offr_id]\">enable</a>" : "<a class=\"disable\" href=\"/console/offer/disable/$r[offr_id]\">disable</a>")."</td>
+<td class=\"list-row\" width=\"1\"><a class=\"edit\" href=\"/console/offer/edit/$r[offr_id]\">edit</a></td>
+</tr>
+";
+?>            
+            </tr></table>
+    </div>  
+</div>
+
+
+
+
+
+<div id="save-pane" style="display:<?= ($this->save_error ? "block" : "none") ?>">
+<h1>Add An Offer</h1>
+
+<?php if (is_string($this->save_error)) { ?><ul class="errors"><li><?= $this->save_error ?></li></ul><br /><?php } ?>
+
+<form name="save-pane" method="POST" action="/console/offer/save/1">
+
+<table id="save-form" class="form" cellspacing="10" width="100%">
+	<tr>
+		<td class="required" width="30%">Offer Name: <br /> <font class="note">(max. 64)</font></td>
+		<td class="value" width="70%"><?= $this->inputs[1] ?></td>
+	</tr>
+	<tr>
+		<td class="required" width="30%">Attach a Product:</td>
+		<td class="value" width="70%"><?= $this->inputs[2] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Retail Price: <br /> <font class="note">(eg 79.25 USD)</font></td>
+		<td class="value"><?= $this->inputs[3] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Billing Term: <br /> <font class="note">(in days)</font></td>
+		<td class="value"><?= $this->inputs[4] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Trial Price: <br /> <font class="note">(if trial offer)</font></td>
+		<td class="value"><?= $this->inputs[5] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Trial Term: <br /> <font class="note">(if trial offer)</font></td>
+		<td class="value"><?= $this->inputs[6] ?></td>
+	</tr>
+	<tr>
+		<td class="label">Impulse Marketing <br /> Source Product ID <br /> <font class="note">(max. 64)</font></td>
+		<td class="value" valign="top"><?= $this->inputs[7] ?></td>
+	</tr>
+	
+</table><!-- /#save-form -->
+
+<div id="save-actions" class="actions">
+	<input type="submit" class="submit" value="Save" onclick="selAll(products)" />
+	<input type="button" class="submit" value="Cancel" onclick="hideForm('save-pane')" />
+</div><!-- /#top-actions -->
+
+</form>
+
+</div><!-- /#save-pane -->
+
+<div id="modal" style="display:<?= ($this->save_error ? "block" : "none") ?>"></div><!-- /#modal -->

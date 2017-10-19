@@ -1,0 +1,37 @@
+<br />
+
+        <table width="100%" cellspacing="0">
+			<tr><td class="list-column-blue" colspan="2">Affiliates \/\/\/\/\/\/\/\/</td>
+				<td class="list-column-blue" colspan="3">Decline Data \/\/\/\/\/\/\/\/</td>
+			</tr>
+          	<tr><td class="list-column">ID</td>
+            	<td class="list-column">Affiliate Name</td>
+            	<td class="list-column">Decline Reason</td>
+            	<td class="list-column">Count</td>
+            	<td class="list-column">Percent</td>
+            </tr>
+<?php
+$i = 0;
+if ($this->list_error)
+echo "<tr><td align=\"center\" colspan=\"20\">$this->list_error</td>";
+
+else
+foreach($this->records as $r)
+echo "
+<tr style='cursor:pointer;' onmouseover=\"this.style.backgroundColor='#222';\" onmouseout=\"this.style.backgroundColor='';\">
+<td class=\"list-row\">$r[user_id]</td>
+<td class=\"list-row\">".(!$r['user_id'] ? "Without an Affiliate" : (strlen($r['business']) > 0 ? $r['business'] : "$r[user_last], $r[user_first]"))."</td>
+<td class=\"list-row\">$r[decline_reason]</td>
+<td class=\"list-row\">$r[decline_count]</td>
+<td class=\"list-row\">".round(($r['decline_count']/$r['decline_total'])*100, 2)."</td>
+</tr>
+";
+?>            
+            </tr></table>
+
+<?//= ($this->paging ? $this->paging : "") ?>
+
+            </form>            
+            
+    </div>  
+</div>

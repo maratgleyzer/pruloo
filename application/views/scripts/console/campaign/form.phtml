@@ -1,0 +1,11 @@
+
+<div style="background:#fff;padding:5px 25px 25px 25px;">
+
+<h1>Campaign Form Code For Campaign ID #<?= $this->campaign_id ?></h1><br />
+
+<pre style="width:90%;overflow-x:auto;overflow-y:auto;">
+<?= (is_string($this->form_code_error) ? $this->form_code_error : $this->escaped_code) ?>
+
+</pre>
+
+</div>

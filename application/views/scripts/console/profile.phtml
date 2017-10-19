@@ -1,0 +1,202 @@
+<div id="center">
+	<div id="mids">	
+  		<h1>&nbsp;Profile <?php if ($this->save_success) { ?><span id="alert"><?php echo $this->save_success ?></span><?php } ?></h1>
+    	<img src="/img/break.jpg" /><br /><br />
+  		<h1><span style="float:right;margin-right:10px;"><form action="#"><input type="submit" class="submit" value="Add A Gateway" onclick="showForm('save-pane-gateway')" /></form></span> &nbsp;Payment Gateways</h1>
+    	<img src="/img/break.jpg" /><br /><br />
+        <table width="100%" cellspacing="0">
+          	<tr><td class="list-column" width="1">ID</td>
+            	<td class="list-column">Gateway</td>
+            	<td class="list-column">Alias Name</td>
+            	<td class="list-column">Username</td>
+            	<td class="list-column">Plan (MID)</td>
+            	<td class="list-column">Checks?</td>
+            	<td class="list-column">Weight?</td>
+            	<td class="list-column">Purchases</td>
+            	<td class="list-column">Threshold</td>
+            	<td class="list-column" colspan="2">&nbsp;</td>                    
+            </tr>
+<?php
+$i = 0;
+if ($this->list_error_gateway)
+echo "<tr><td align=\"center\" colspan=\"10\">$this->list_error_gateway</td>";
+
+else
+foreach($this->gateways as $g)
+echo "
+<tr style='cursor:pointer;".($this->g_save_id == $g['plan_id'] ? "background:#090;'" : "' onmouseover=\"this.style.backgroundColor='#222';\" onmouseout=\"this.style.backgroundColor='';\"").">
+<td class=\"list-row\">$g[plan_id]</td>
+<td class=\"list-row\">$g[gate_name]</td>
+<td class=\"list-row\">$g[alias]</td>
+<td class=\"list-row\">$g[gate_user]</td>
+<td class=\"list-row\">$g[gate_plan]</td>
+<td class=\"list-row\">".($g['checking'] ? "<img src=\"/img/check.png\" alt=\"\" />" : "")."</td>
+<td class=\"list-row\">".($g['weight'] ? "<img src=\"/img/check.png\" alt=\"\" />" : "")."</td>
+<td class=\"list-row\">$g[purchases]</td>
+<td class=\"list-row\">$g[threshold]</td>
+<td class=\"list-row\" width=\"1\">".($g['disable'] > 0 ? "<a class=\"enable\" href=\"/console/profile/enable/gateway/id/$g[plan_id]\">enable</a>" : "<a class=\"disable\" href=\"/console/profile/disable/gateway/id/$g[plan_id]\">disable</a>")."</td>
+<td class=\"list-row\" width=\"1\"><a class=\"edit\" href=\"/console/profile/edit/gateway/id/$g[plan_id]\">edit</a></td>
+</tr>
+";
+?>            
+            </tr></table>
+  		<h1><span style="float:right;margin-right:10px;"><form action="#"><input type="submit" class="submit" value="Add A Shipper" onclick="showForm('save-pane-shipping')" /></form></span> &nbsp;Shipping Methods</h1>
+    	<img src="/img/break.jpg" /><br /><br />
+        <table width="100%" cellspacing="0">
+          	<tr><td class="list-column" width="1">ID</td>
+            	<td class="list-column">Shipping Method</td>
+            	<td class="list-column">Unit Cost</td>
+            	<td class="list-column" colspan="2">&nbsp;</td>                    
+            </tr>
+<?php
+$i = 0;
+if ($this->list_error_shipping)
+echo "<tr><td align=\"center\" colspan=\"10\">$this->list_error_shipping</td>";
+
+else
+foreach($this->shippers as $s)
+echo "
+<tr style='cursor:pointer;".($this->s_save_id == $s['ship_id'] ? "background:#090;'" : "' onmouseover=\"this.style.backgroundColor='#222';\" onmouseout=\"this.style.backgroundColor='';\"").">
+<td class=\"list-row\">$s[ship_id]</td>
+<td class=\"list-row\">$s[ship_name]</td>
+<td class=\"list-row\">$s[ship_cost]</td>
+<td class=\"list-row\" width=\"1\">".($s['disable'] > 0 ? "<a class=\"enable\" href=\"/console/profile/enable/shipping/id/$s[ship_id]\">enable</a>" : "<a class=\"disable\" href=\"/console/profile/disable/shipping/id/$s[ship_id]\">disable</a>")."</td>
+<td class=\"list-row\" width=\"1\"><a class=\"edit\" href=\"/console/profile/edit/shipping/id/$s[ship_id]\">edit</a></td>
+</tr>
+";
+?>            
+            </tr></table>
+    </div>  
+</div>
+
+
+
+
+
+<div id="save-pane-channel" style="display:<?= ($this->save_error_channel ? "block" : "none") ?>">
+<h1>Add A Channel</h1>
+
+<?php if (is_string($this->save_error_channel)) { ?><ul class="errors"><li><?= $this->save_error_channel ?></li></ul><br /><?php } ?>
+
+<form name="save-pane-channel" method="POST" action="/console/profile/save/channel">
+
+<table id="save-form" class="form" cellspacing="10" width="100%">
+	<tr>
+		<td class="required" width="30%">Channel Name: <br /> <font class="note">(max. 64)</font></td>
+		<td class="value" width="70%"><?//= $this->c_inputs[1] ?></td>
+	</tr>
+	<tr>
+		<td class="required" valign="top">Channel Link: <br /> <font class="note">(max. 128)</font></td>
+		<td class="value"><?//= $this->c_inputs[2] ?></td>
+	</tr>
+
+</table><!-- /#save-form -->
+
+<div id="save-actions" class="actions">
+	<input type="submit" class="submit" value="Save" />
+	<input type="button" class="submit" value="Cancel" onclick="hideForm('save-pane-channel')" />
+</div><!-- /#top-actions -->
+
+</form>
+
+</div><!-- /#save-pane -->
+
+
+
+
+
+
+<div id="save-pane-gateway" style="display:<?= ($this->save_error_gateway ? "block" : "none") ?>">
+<h1><?= ($this->edit ? "Edit Gateway ID #$this->edit" : "Add A Gateway") ?></h1>
+
+<?php if (is_string($this->save_error_gateway)) { ?><ul class="errors"><li><?= $this->save_error_gateway ?></li></ul><br /><?php } ?>
+
+<form name="save-pane-gateway" method="POST" action="/console/profile/<?= ($this->edit ? "edit" : "save") ?>/gateway">
+<input type="hidden" name="id" value="<?= $this->edit ?>" />
+<table id="save-form" class="form" cellspacing="10" width="100%">
+	<tr>
+		<td class="label" width="30%">Alias Name: <br /> <font class="note">(max. 32)</font></td>
+		<td class="value" width="70%"><?= $this->g_inputs[1] ?></td>
+	</tr>
+	<tr>
+		<td class="required" width="30%">Authorized Gateway:</td>
+		<td class="value" width="70%"><?= $this->g_inputs[2] ?></td>
+	</tr>
+	<tr>
+		<td class="label" valign="top">Account Identifier: <br /> <font class="note">(max. 32)</font></td>
+		<td class="value"><?= $this->g_inputs[3] ?></td>
+	</tr>
+	<tr>
+		<td class="required" valign="top">Username: <br /> <font class="note">(max. 32)</font></td>
+		<td class="value"><?= $this->g_inputs[4] ?></td>
+	</tr>
+	<tr>
+		<td class="required" valign="top">Password: <br /> <font class="note">(max. 32)</font></td>
+		<td class="value"><?= $this->g_inputs[5] ?></td>
+	</tr>
+	<tr>
+		<td class="required" valign="top">Confirm: <br /> <font class="note">(max. 32)</font></td>
+		<td class="value"><?= $this->g_inputs[6] ?></td>
+	</tr>
+	<tr>
+		<td class="label" valign="top">Plan (MID): <br /> <font class="note">(max. 16)</font></td>
+		<td class="value"><?= $this->g_inputs[7] ?></td>
+	</tr>
+	<tr>
+		<td class="label" valign="top">Purchase <br /> Threshold: <br /> <font class="note">(eg. 50,000)</font></td>
+		<td class="value"><?= $this->g_inputs[8] ?></td>
+	</tr>
+	<tr>
+		<td class="label" valign="top">Checking?</td>
+		<td class="value"><?= $this->g_inputs[9] ?></td>
+	</tr>
+	<tr>
+		<td class="label" valign="top">Weight?</td>
+		<td class="value"><?= $this->g_inputs[10] ?></td>
+	</tr>
+
+</table><!-- /#save-form -->
+
+<div id="save-actions" class="actions">
+	<input type="submit" class="submit" value="Save" />
+	<input type="button" class="submit" value="Cancel" onclick="hideForm('save-pane-gateway');<?= ($this->edit ? "window.location='/console/profile';" : "") ?>" />
+</div><!-- /#top-actions -->
+
+</form>
+
+</div><!-- /#save-pane -->
+
+
+
+
+
+
+<div id="save-pane-shipping" style="display:<?= ($this->save_error_shipping ? "block" : "none") ?>">
+<h1>Add A Shipper</h1>
+
+<?php if (is_string($this->save_error_shipping)) { ?><ul class="errors"><li><?= $this->save_error_shipping ?></li></ul><br /><?php } ?>
+
+<form name="save-pane-gateway" method="POST" action="/console/profile/save/shipping">
+
+<table id="save-form" class="form" cellspacing="10" width="100%">
+	<tr>
+		<td class="required" width="30%">Shipping Method: <br /> <font class="note">(max. 48)</font></td>
+		<td class="value" width="70%"><?= $this->s_inputs[1] ?></td>
+	</tr>
+	<tr>
+		<td class="required" valign="top">Unit Cost: <br /> <font class="note">(eg. 9.95 USD)</font></td>
+		<td class="value"><?= $this->s_inputs[2] ?></td>
+	</tr>
+
+</table><!-- /#save-form -->
+
+<div id="save-actions" class="actions">
+	<input type="submit" class="submit" value="Save" />
+	<input type="button" class="submit" value="Cancel" onclick="hideForm('save-pane-shipping')" />
+</div><!-- /#top-actions -->
+
+</form>
+
+</div><!-- /#save-pane -->
+
+<div id="modal" style="display:<?php echo ($this->save_error_channel || $this->save_error_gateway || $this->save_error_shipping ? "block" : "none") ?>"></div><!-- /#modal -->

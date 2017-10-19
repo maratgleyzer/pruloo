@@ -1,0 +1,15 @@
+
+  		<?php if ($this->login_error) { ?><span id="alert"><?php echo $this->login_error ?></span><?php } ?>
+		<form name="login" method="POST" action="/login">
+
+			<table width="300" border="0" cellpadding="2" cellspacing="2">
+			<tr><td class="label">Username</td></tr>
+			<tr><td class="value"><?= $this->inputs[1] ?></td></tr>
+			<tr><td class="label">Password</td></tr>
+			<tr><td class="value"><?= $this->inputs[2] ?></td></tr>
+			</table>
+			<br />
+			
+			<input type="image" name="login" src="/img/login.png" border=0 style="float:right;margin-right:60px;width:67px;" />
+
+		</form>	

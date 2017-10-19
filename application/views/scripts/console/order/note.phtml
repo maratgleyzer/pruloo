@@ -1,0 +1,38 @@
+
+<h1>Add A Note For Order ID <?= $this->ordr_id ?></h1>
+
+<?php if (is_string($this->save_error)) { ?><ul class="errors"><li><?= $this->save_error ?></li></ul><br /><?php } ?>
+
+<form name="save-pane" method="POST" action="/console/order/save/<?= $this->ordr_id ?>">
+<input type="hidden" name="ordr_id" value="<?= $this->ordr_id ?>" />
+<table id="save-form" class="form" cellspacing="10" width="100%">
+	<tr><td class="label">Note History:</td></tr>
+	<tr><td class="value">
+	<div style="border:1px solid #000;">
+	<table cellspacing="10" width="100%" border="0">
+	
+<?php if (is_array($this->notes) && count($this->notes) > 0) foreach ($this->notes as $n) { ?>
+<tr><td valign="top" width="30%"><?php echo $n['user_last'] ?>, <?php echo $n['user_first'] ?> <br /><?php echo $n['create_date'] ?> <?php echo $n['create_time'] ?></td>
+<td valign="top"><?php echo $n['note'] ?></td></tr>
+<?php } else { ?>
+<tr><td colspan="2">No notes found.</td></tr>
+<?php } ?>	
+
+	</table>
+	</div>
+	</td></tr>
+	<tr><td class="required">Your Note: <font class="note">(max. 255)</font></td></tr>
+	<tr><td>
+	
+	<?= $this->note_input[1] ?>	
+	
+	</td></tr>
+	
+</table><!-- /#save-form -->
+
+<div id="save-actions" class="actions">
+	<input type="submit" class="submit" value="Save" />
+	<input type="button" class="submit" value="Cancel" onclick="hideForm('save-pane')" />
+</div><!-- /#top-actions -->
+
+</form>
